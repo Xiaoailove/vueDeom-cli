@@ -1,8 +1,8 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <Header></Header>
-      <List></List>
+      <Header :addTodo="addTodo"/>
+      <List :todos="todos"></List>
       <Footer></Footer>
     </div>
   </div>
@@ -12,6 +12,20 @@
     import List from "./components/List.vue"
     import Footer from "./components/Footer.vue"
     export default {
+        data () {
+            return {
+                todos:[
+                    {id:3,title:'吃饭饭',complete:false},
+                    {id:5,title:'睡觉觉',complete:false},
+                    {id:9,title:'喝水水',complete:false}
+                ]
+            }
+        },
+        methods: {
+            addTodo (todo) {
+                this.todos.unshift(todo)
+            }
+        },
         components: {
             Header,
             List,

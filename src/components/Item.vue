@@ -2,13 +2,16 @@
   <li>
     <label>
       <input type="checkbox" />
-      <span>xxxxx</span>
+      <span>{{todo.title}}</span>
     </label>
     <button class="btn btn-danger" style="display:none">删除</button>
   </li>
 </template>
 <script type="text/ecmascript-6">
-    export default {   
+    export default { 
+        props:{
+            todo:Object,
+        }  
     }
 </script>
 <style scoped>
