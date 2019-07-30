@@ -3,7 +3,7 @@
     <div class="todo-wrap">
       <Header :addTodo="addTodo"/>
       <List :todos="todos" :deleteTodo="deleteTodo" :updateTodo="updateTodo"></List>
-      <Footer></Footer>
+      <Footer :todos="todos" :selectAll="selectAll" :deleteCompleted="deleteCompleted"></Footer>
     </div>
   </div>
 </template>
@@ -14,11 +14,7 @@
     export default {
         data () {
             return {
-                todos:[
-                    {id:3,title:'吃饭饭',complete:false},
-                    {id:5,title:'睡觉觉',complete:false},
-                    {id:9,title:'喝水水',complete:false}
-                ]
+                todos: JSON.parse(localStorage.getItem('todos_key') || '[]')
             }
         },
         methods: {
@@ -26,10 +22,27 @@
                 this.todos.unshift(todo)
             },
             deleteTodo (index) {
+                console.log(this.todos)
                 this.todos.splice(index,1)
             },
             updateTodo (todo,complete) {
                 todo.complete=complete
+            },
+            selectAll (completed) {
+                //forEach是对数组中的每一项进行遍历，此处每一项为对象，动了对象某一个属性本身是可以调用set方法监测到的
+                this.todos.forEach((todo)=>todo.complete=completed)
+            },
+            deleteCompleted () {
+                this.todos = this.todos.filter((todo)=>!todo.complete)
+            }
+        },
+        //深度监视todo数组的变化，解决刷新时不能保存原来状态的问题
+        watch:{
+            todos:{
+                deep:true,
+                handler: function (value) {
+                    localStorage.setItem('todos_key',JSON.stringify(value))
+                }
             }
         },
         components: {
