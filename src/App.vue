@@ -2,7 +2,7 @@
   <div class="todo-container">
     <div class="todo-wrap">
       <Header :addTodo="addTodo"/>
-      <List :todos="todos" :deleteTodo="deleteTodo"></List>
+      <List :todos="todos" :deleteTodo="deleteTodo" :updateTodo="updateTodo"></List>
       <Footer></Footer>
     </div>
   </div>
@@ -27,6 +27,9 @@
             },
             deleteTodo (index) {
                 this.todos.splice(index,1)
+            },
+            updateTodo (todo,complete) {
+                todo.complete=complete
             }
         },
         components: {

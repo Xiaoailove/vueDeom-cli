@@ -1,7 +1,7 @@
 <template>
   <li :style="{background:bgcolor}" @mouseenter="handleEnter(true)" @mouseleave="handleEnter(false)">
     <label>
-      <input type="checkbox" v-model="todo.complete"/>
+      <input type="checkbox" v-model="isCheck"/>
       <span>{{todo.title}}</span>
     </label>
     <button class="btn btn-danger" v-show="isShow" @click="deleteItem">删除</button>
@@ -12,12 +12,23 @@
         props:{
             todo:Object,
             deleteTodo:Function,
-            index:Number
+            index:Number,
+            updateTodo:Function
         },
         data () {
             return {
                 bgcolor:'white',
                 isShow:false
+            }
+        },
+        computed:{
+            isCheck: {
+                get () {
+                    return this.todo.complete
+                },
+                set (value) {
+                   this.updateTodo(this.todo,value)
+                }
             }
         },
         methods:{
